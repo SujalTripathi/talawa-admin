@@ -7,7 +7,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { MemoryRouter, Route, Routes, useParams } from 'react-router';
 import { store } from 'state/store';
 import { StaticMockLink } from 'utils/StaticMockLink';
 import i18n from 'utils/i18nForTest';
@@ -57,7 +57,7 @@ const debounceWait = async (ms = 300): Promise<void> => {
 
 const renderLeaderboard = (link: ApolloLink): RenderResult => {
   return render(
-    <MockedProvider link={link}>
+    <MockedProvider addTypename={false} link={link}>
       <MemoryRouter initialEntries={['/leaderboard/orgId']}>
         <Provider store={store}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -81,32 +81,25 @@ const renderLeaderboard = (link: ApolloLink): RenderResult => {
   );
 };
 
-const routerMocks = vi.hoisted(() => ({
-  useParams: vi.fn(),
-}));
-
-vi.mock('react-router', async () => {
-  const originalModule =
-    await vi.importActual<typeof import('react-router')>('react-router');
-  return {
-    ...originalModule,
-    useParams: routerMocks.useParams,
-  };
-});
-
 describe('Testing Leaderboard Screen', () => {
-  beforeEach(() => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+  beforeAll(() => {
+    vi.mock('react-router', async () => {
+      const originalModule = await vi.importActual('react-router');
+      return {
+        ...originalModule,
+        useParams: vi.fn(),
+      };
+    });
   });
 
-  afterEach(() => {
+  afterAll(() => {
     vi.clearAllMocks();
   });
 
   it('should redirect to fallback URL if URL params are undefined', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: '' });
+    vi.mocked(useParams).mockReturnValue({ orgId: '' });
     render(
-      <MockedProvider link={link1}>
+      <MockedProvider addTypename={false} link={link1}>
         <MemoryRouter initialEntries={['/leaderboard/']}>
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -128,7 +121,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('should render Leaderboard screen', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     await waitFor(() => {
@@ -137,7 +130,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('Check Sorting Functionality', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     await waitFor(() => {
@@ -168,7 +161,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('Check Timeframe filter Functionality (All Time)', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     await waitFor(() => {
@@ -189,7 +182,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('Check Timeframe filter Functionality (Weekly)', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     await waitFor(() => {
@@ -212,7 +205,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('Check Timeframe filter Functionality (Monthly)', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     await waitFor(() => {
@@ -233,7 +226,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('Check Timeframe filter Functionality (Yearly)', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     await waitFor(() => {
@@ -254,7 +247,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('Search Volunteers', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     const searchInput = await screen.findByTestId('searchBy');
@@ -272,7 +265,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('OnClick of Member navigate to Member Screen', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link1);
 
     const searchInput = await screen.findByTestId('searchBy');
@@ -287,7 +280,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('should render Leaderboard screen with No Volunteers', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link3);
 
     await waitFor(() => {
@@ -297,7 +290,7 @@ describe('Testing Leaderboard Screen', () => {
   });
 
   it('Error while fetching volunteer data', async () => {
-    routerMocks.useParams.mockReturnValue({ orgId: 'orgId' });
+    vi.mocked(useParams).mockReturnValue({ orgId: 'orgId' });
     renderLeaderboard(link2);
 
     await waitFor(() => {

@@ -1,0 +1,23 @@
+[Admin Docs](/)
+
+***
+
+# Interface: InterfaceAgendaItemCategoryList
+
+Defined in: [src/utils/interfaces.ts:2361](https://github.com/PalisadoesFoundation/talawa-admin/blob/main/src/utils/interfaces.ts#L2361)
+
+InterfaceAgendaItemCategoryList
+
+## Description
+
+Defines the structure for a list of agenda item categories by organization.
+
+## Properties
+
+### agendaItemCategoriesByOrganization
+
+> **agendaItemCategoriesByOrganization**: [`InterfaceAgendaItemCategoryInfo`](utils\interfaces\README\interfaces\InterfaceAgendaItemCategoryInfo.md)[]
+
+Defined in: [src/utils/interfaces.ts:2362](https://github.com/PalisadoesFoundation/talawa-admin/blob/main/src/utils/interfaces.ts#L2362)
+
+An array of agenda item category information.

@@ -127,13 +127,11 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
     await act(async () => {
       await i18nForTest.changeLanguage('en');
     });
-
-    vi.clearAllMocks();
   });
 
   it('Component should be rendered properly', async () => {
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <BrowserRouter>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
@@ -154,7 +152,7 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
 
   it('The language is switched to English', async () => {
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <BrowserRouter>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
@@ -181,7 +179,7 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
 
   it('The language is switched to fr', async () => {
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <BrowserRouter>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
@@ -205,7 +203,7 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
 
   it('The language is switched to hi', async () => {
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <BrowserRouter>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
@@ -229,7 +227,7 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
 
   it('The language is switched to es', async () => {
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <BrowserRouter>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
@@ -253,7 +251,7 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
 
   it('The language is switched to zh', async () => {
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <BrowserRouter>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
@@ -300,7 +298,7 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
       writable: true,
     });
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <BrowserRouter>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
@@ -322,7 +320,7 @@ describe('Testing OrganizationNavbar Component [User Portal]', () => {
       initialEntries: ['/initial'],
     });
     render(
-      <MockedProvider link={link}>
+      <MockedProvider addTypename={false} link={link}>
         <Router location={history.location} navigator={history}>
           <Provider store={store}>
             <I18nextProvider i18n={i18nForTest}>
